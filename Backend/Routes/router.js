@@ -1,83 +1,91 @@
 const express = require('express');
 const router = express.Router();
-const products = require('../Models/Products');
+const Products = require('../Models/Products'); // Adjust the path if needed
 
-//Inserting(Creating) Data:
+// CREATE - Add a new product
 router.post("/insertproduct", async (req, res) => {
-    const { ProductName, ProductPrice, ProductBarcode } = req.body;
+  const { ProductName, ProductPrice, ProductBarcode } = req.body;
 
-    try {
-        const pre = await products.findOne({ ProductBarcode: ProductBarcode })
-        console.log(pre);
+  try {
+    const existingProduct = await Products.findOne({ ProductBarcode });
 
-        if (pre) {
-            res.status(422).json("Product is already added.")
-        }
-        else {
-            const addProduct = new products({ ProductName, ProductPrice, ProductBarcode })
-
-            await addProduct.save();
-            res.status(201).json(addProduct)
-            console.log(addProduct)
-        }
+    if (existingProduct) {
+      return res.status(422).json({ message: "Product with this barcode already exists." });
     }
-    catch (err) {
-        console.log(err)
-    }
-})
 
-//Getting(Reading) Data:
-router.get('/products', async (req, res) => {
+    const newProduct = new Products({ ProductName, ProductPrice, ProductBarcode });
+    await newProduct.save();
 
-    try {
-        const getProducts = await products.find({})
-        console.log(getProducts);
-        res.status(201).json(getProducts);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+    res.status(201).json(newProduct);
+  } catch (err) {
+    console.error("Insert Error:", err);
+    res.status(500).json({ error: "Failed to insert product." });
+  }
+});
 
-//Getting(Reading) individual Data:
-router.get('/products/:id', async (req, res) => {
+// READ - Get all products
+router.get("/products", async (req, res) => {
+  try {
+    const allProducts = await Products.find({});
+    res.status(200).json(allProducts);
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    res.status(500).json({ error: "Failed to fetch products." });
+  }
+});
 
-    try {
-        const getProduct = await products.findById(req.params.id);
-        console.log(getProduct);
-        res.status(201).json(getProduct);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+// READ - Get a single product by ID
+router.get("/products/:id", async (req, res) => {
+  try {
+    const product = await Products.findById(req.params.id);
 
-//Editing(Updating) Data:
-router.put('/updateproduct/:id', async (req, res) => {
-    const { ProductName, ProductPrice, ProductBarcode } = req.body;
-
-    try {
-        const updateProducts = await products.findByIdAndUpdate(req.params.id, { ProductName, ProductPrice, ProductBarcode }, { new: true });
-        console.log("Data Updated");
-        res.status(201).json(updateProducts);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found." });
     }
-    catch (err) {
-        console.log(err);
-    }
-})
 
-//Deleting Data:
-router.delete('/deleteproduct/:id', async (req, res) => {
+    res.status(200).json(product);
+  } catch (err) {
+    console.error("Fetch by ID Error:", err);
+    res.status(500).json({ error: "Failed to fetch product." });
+  }
+});
 
-    try {
-        const deleteProduct = await products.findByIdAndDelete(req.params.id);
-        console.log("Data Deleted");
-        res.status(201).json(deleteProduct);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
+// UPDATE - Update a product by ID
+router.put("/updateproduct/:id", async (req, res) => {
+  const { ProductName, ProductPrice, ProductBarcode } = req.body;
 
+  try {
+    const updatedProduct = await Products.findByIdAndUpdate(
+      req.params.id,
+      { ProductName, ProductPrice, ProductBarcode },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ error: "Product not found." });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    console.error("Update Error:", err);
+    res.status(500).json({ error: "Failed to update product." });
+  }
+});
+
+// DELETE - Remove a product by ID
+router.delete("/deleteproduct/:id", async (req, res) => {
+  try {
+    const deletedProduct = await Products.findByIdAndDelete(req.params.id);
+
+    if (!deletedProduct) {
+      return res.status(404).json({ error: "Product not found." });
+    }
+
+    res.status(200).json({ message: "Product deleted successfully." });
+  } catch (err) {
+    console.error("Delete Error:", err);
+    res.status(500).json({ error: "Failed to delete product." });
+  }
+});
 
 module.exports = router;

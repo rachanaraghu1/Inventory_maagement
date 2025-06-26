@@ -1,9 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function Home() {
-  return (
-    <div className='container-fluid p-5'>
-        <h2>Go to Products Section.</h2>
-    </div>
-  )
+  return <h1 style={{ color: "green" }}>Home Page Loaded</h1>;
 }
