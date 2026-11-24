@@ -3,8 +3,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function InsertProduct() {
     const [productName, setProductName] = useState("");
-    const [productPrice, setProductPrice] = useState();
-    const [productBarcode, setProductBarcode] = useState();
+    const [productPrice, setProductPrice] = useState("");
+    const [productBarcode, setProductBarcode] = useState("");
+    const [quantity, setQuantity] = useState("");
+    const [reserved, setReserved] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate("");
@@ -25,7 +27,7 @@ export default function InsertProduct() {
     const addProduct = async (e) => {
         e.preventDefault();
 
-        if (!productName || !productPrice || !productBarcode) {
+        if (!productName || !productPrice || !productBarcode || !quantity || !reserved) {
             setError("*Please fill in all the required fields.");
             return;
         }
@@ -34,12 +36,14 @@ export default function InsertProduct() {
         setError("");
 
         try {
+            const token = localStorage.getItem('token');
             const res = await fetch("http://localhost:3001/insertproduct", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode })
+                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode, "quantity": quantity, "reserved": reserved })
             });
 
             await res.json();
@@ -47,8 +51,10 @@ export default function InsertProduct() {
             if (res.status === 201) {
                 alert("Data Inserted");
                 setProductName("");
-                setProductPrice(0);
-                setProductBarcode(0);
+                setProductPrice("");
+                setProductBarcode("");
+                setQuantity("");
+                setReserved("");
                 navigate('/products');
             }
             else if (res.status === 422) {
@@ -80,6 +86,14 @@ export default function InsertProduct() {
             <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
                 <label htmlFor="product_barcode" className="form-label fw-bold">Product Barcode</label>
                 <input type="number" onChange={setBarcode} value={productBarcode} maxLength={12} className="form-control fs-5" id="product_barcode" placeholder="Enter Product Barcode" required />
+            </div>
+            <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_quantity" className="form-label fw-bold">Quantity</label>
+                <input type="number" onChange={e => setQuantity(e.target.value)} value={quantity} min={0} className="form-control fs-5" id="product_quantity" placeholder="Enter Quantity" required />
+            </div>
+            <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_reserved" className="form-label fw-bold">Reserved</label>
+                <input type="number" onChange={e => setReserved(e.target.value)} value={reserved} min={0} className="form-control fs-5" id="product_reserved" placeholder="Enter Reserved Quantity" required />
             </div>
             <div className='d-flex justify-content-center col-lg-6 col-md-6'>
                 <NavLink to="/products" className='btn btn-primary me-5 fs-4'>Cancel</NavLink>

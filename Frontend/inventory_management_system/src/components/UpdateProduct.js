@@ -5,6 +5,8 @@ export default function InsertProduct() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState();
     const [productBarcode, setProductBarcode] = useState();
+    const [quantity, setQuantity] = useState();
+    const [reserved, setReserved] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate("");
@@ -36,11 +38,12 @@ export default function InsertProduct() {
       
             const data = await res.json();
       
-            if (res.status === 201) {
-              console.log("Data Retrieved.");
+            if (res.ok) {
               setProductName(data.ProductName);
               setProductPrice(data.ProductPrice);
               setProductBarcode(data.ProductBarcode);
+              setQuantity(data.quantity);
+              setReserved(data.reserved);
             } else {
               console.log("Something went wrong. Please try again.");
             }
@@ -55,7 +58,7 @@ export default function InsertProduct() {
     const updateProduct = async (e) => {
         e.preventDefault();
 
-        if (!productName || !productPrice || !productBarcode) {
+        if (!productName || !productPrice || !productBarcode || quantity === undefined || reserved === undefined) {
             setError("*Please fill in all the required fields.");
             return;
         }
@@ -64,21 +67,22 @@ export default function InsertProduct() {
         setError("");
 
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:3001/updateproduct/${id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode })
+                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode, "quantity": quantity, "reserved": reserved })
             });
 
             await response.json();
 
-            if (response.status === 201) {
+            if (response.ok) {
                 alert("Data Updated");
                 navigate('/products');
-            }
-            else {
+            } else {
                 setError("Something went wrong. Please try again.");
             }
         } catch (err) {
@@ -103,6 +107,14 @@ export default function InsertProduct() {
             <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12">
                 <label htmlFor="product_barcode" className="form-label fs-4 fw-bold">Product Barcode</label>
                 <input type="number" onChange={setBarcode} value={productBarcode} maxLength={12} className="form-control fs-5" id="product_barcode" placeholder="Enter Product Barcode" required />
+            </div>
+            <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12">
+                <label htmlFor="product_quantity" className="form-label fs-4 fw-bold">Quantity</label>
+                <input type="number" onChange={e => setQuantity(e.target.value)} value={quantity} min={0} className="form-control fs-5" id="product_quantity" placeholder="Enter Quantity" required />
+            </div>
+            <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12">
+                <label htmlFor="product_reserved" className="form-label fs-4 fw-bold">Reserved</label>
+                <input type="number" onChange={e => setReserved(e.target.value)} value={reserved} min={0} className="form-control fs-5" id="product_reserved" placeholder="Enter Reserved Quantity" required />
             </div>
             <div className='d-flex justify-content-center col-lg-6 col-md-6'>
                 <NavLink to="/products" className='btn btn-primary me-5 fs-4'>Cancel</NavLink>
