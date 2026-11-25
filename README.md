@@ -1,42 +1,98 @@
-# Inventory Management System MERN CRUD App
+# Smart Inventory: MERN Inventory Management System
 
-A simple MERN project that lets the user insert, update, delete & get products from the MongoDB.
+A full-stack inventory management app where users can sign up, log in, and manage products with a live analytics dashboard and low-stock tracking.
 
-## To Run App:
+**Live demo:** [inventory-maagement.vercel.app]
 
-### 1. Open the folder in vs code and run (npm install) command.
-   
-### 2. In MongoDB Compass:
-   - Create Database: IMS
-   - Collection Name: products
+> The backend runs on a free hosting tier, so the first request after a period of inactivity can take about 30 seconds while the server wakes up.
 
-### 3. Then in vs code, open two terminals in split:
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/86ed0828-84b8-43b0-89fd-8caa17b88833)
+## Screenshots
 
-### 4. In one terminal run these commands (For Backend / Server):
-   - cd Backend
-   - npm run server
+![Dashboard](screenshots/dashboard.png)
+![Products](screenshots/products.png)
+![Add product](screenshots/add-product.png)
 
-### 5. In the other terminal run these commands (For Frontend / Client):
-   - cd Frontend
-   - cd inventory_management_system
-   - npm start
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/93fa528b-bc88-49c2-9922-19b317336b7c)
+## Features
 
-## Output:
-### 1. GET (Displaying products)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/09f7d43a-344b-4122-b415-b3736307cf45)
+- User sign up and login with JWT authentication and hashed passwords (bcrypt)
+- Role-based access control through backend middleware
+- Full CRUD for products: add, view, update and delete
+- Unique barcode validation, so duplicate products are rejected
+- Dashboard cards: total products, total inventory value, most and least expensive product, low-stock count
+- Charts for inventory value trend and products by quantity
+- Low-stock view for items with quantity below 5
+- Reserved quantity tracking and prices shown in INR (₹)
 
-### 2. POST (Inserting a new product)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/d31e9f36-c119-4a04-9cc0-ddc9fe94b159)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/39ec387f-5efc-4c1f-a7eb-a87612acc17a)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/a6b5c6bf-77d7-41ab-9ca0-3a8bfc71954d)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/3d43e877-c2e6-414b-bef9-410caae1668e)
+## Tech Stack
 
-### 3. PUT (Updating a product)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/d35f7ab0-3fda-4b1c-9055-67ca8c7b2ab6)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/7dd107db-6fde-416d-b5c6-2175916f872f)
+| Layer | Technology |
+|-------|------------|
+| Frontend | React, React Router, Bootstrap, Chart.js, Recharts |
+| Backend | Node.js, Express |
+| Database | MongoDB Atlas with Mongoose |
+| Auth | JSON Web Tokens, bcryptjs |
+| Hosting | Vercel (frontend), Render (backend) |
 
-### 4. DELETE (Deleting a product)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/d846ff43-6abd-4baa-9ed6-df736f2d411e)
-   ![image](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project/assets/99351091/cc6368bd-f391-4d6b-b814-c931d48a0878)
+## Run Locally
+
+**Prerequisites:** Node.js and a MongoDB database (local or MongoDB Atlas).
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/rachanaraghu1/Inventory_maagement.git
+   cd Inventory_maagement
+   ```
+
+2. Start the backend:
+   ```bash
+   cd Backend
+   npm install
+   ```
+   Create a `.env` file in `Backend` with your connection string:
+   ```
+   MONGO_URI=your_mongodb_connection_string
+   ```
+   Then run:
+   ```bash
+   npm run server
+   ```
+   The API runs on `http://localhost:3001`.
+
+3. Start the frontend in a second terminal:
+   ```bash
+   cd Frontend/inventory_management_system
+   npm install
+   npm start
+   ```
+   The app opens at `http://localhost:3000`.
+
+> The frontend calls the backend using a URL written in the source files. For local development, make sure those calls point to `http://localhost:3001`.
+
+## Project Structure
+
+```
+Backend/
+  middleware/   auth and role checks
+  Models/       Mongoose schemas
+  Routes/       API routes
+  db.js         database connection
+  index.js      server entry point
+Frontend/inventory_management_system/
+  src/components/   pages and UI components
+  src/utils/        helpers
+```
+
+## Deployment
+
+- **Database:** MongoDB Atlas
+- **Backend:** Render, with `MONGO_URI` set as an environment variable
+- **Frontend:** Vercel, deployed from the `Frontend/inventory_management_system` folder
+
+## Acknowledgements
+
+This project started from the open-source CRUD base by [mhy20401](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project). I extended it with authentication, role-based access, the analytics dashboard, low-stock tracking and deployment.
+
+## Author
+
+**Rachana**
+GitHub: [rachanaraghu1](https://github.com/rachanaraghu1)
