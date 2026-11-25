@@ -37,7 +37,7 @@ export default function InsertProduct() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch("http://localhost:3001/insertproduct", {
+            const res = await fetch("https://inventory-maagement.onrender.com/insertproduct", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

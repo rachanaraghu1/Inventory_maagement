@@ -17,7 +17,7 @@ export default function AdminDashboard() {
     setError('');
     try {
       // Fetch all users
-      const usersRes = await fetch('http://localhost:3001/users', {
+      const usersRes = await fetch('https://inventory-maagement.onrender.com/users', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!usersRes.ok) throw new Error('Failed to fetch users');
@@ -25,7 +25,7 @@ export default function AdminDashboard() {
       setUsers(usersData);
 
       // Fetch all products
-      const productsRes = await fetch('http://localhost:3001/all-products', {
+      const productsRes = await fetch('https://inventory-maagement.onrender.com/all-products', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!productsRes.ok) throw new Error('Failed to fetch products');
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
   const deleteUser = async (id) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     try {
-      const res = await fetch(`http://localhost:3001/users/${id}`, {
+      const res = await fetch(`https://inventory-maagement.onrender.com/users/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
   const changeRole = async (id, newRole) => {
     setRoleUpdating(id);
     try {
-      const res = await fetch(`http://localhost:3001/users/${id}/role`, {
+      const res = await fetch(`https://inventory-maagement.onrender.com/users/${id}/role`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

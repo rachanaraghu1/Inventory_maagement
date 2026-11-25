@@ -14,7 +14,7 @@ export default function Home() {
         setLoading(true);
         setError(null);
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:3001/products', {
+        const res = await fetch('https://inventory-maagement.onrender.com/products', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         });

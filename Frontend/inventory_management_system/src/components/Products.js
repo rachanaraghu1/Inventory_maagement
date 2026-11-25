@@ -22,7 +22,7 @@ export default function Products() {
       setLoading(true);
       setError(null);
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:3001/products", {
+      const res = await fetch("https://inventory-maagement.onrender.com/products", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default function Products() {
   const deleteProduct = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/deleteproduct/${id}`, {
+      const response = await fetch(`https://inventory-maagement.onrender.com/deleteproduct/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

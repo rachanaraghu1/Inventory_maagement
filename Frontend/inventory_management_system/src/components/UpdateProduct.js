@@ -29,7 +29,7 @@ export default function InsertProduct() {
     useEffect(() => {
         const getProduct = async () => {
           try {
-            const res = await fetch(`http://localhost:3001/products/${id}`, {
+            const res = await fetch(`https://inventory-maagement.onrender.com/products/${id}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json"
@@ -68,7 +68,7 @@ export default function InsertProduct() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/updateproduct/${id}`, {
+            const response = await fetch(`https://inventory-maagement.onrender.com/updateproduct/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
