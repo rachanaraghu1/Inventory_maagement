@@ -11,7 +11,7 @@ A full-stack inventory management app where users can sign up, log in, and manag
 <img width="1920" height="961" alt="Screenshot (277)" src="https://github.com/user-attachments/assets/d97f98c3-bdf8-42a8-86a2-8d81f9538e6c" />
 <img width="1920" height="965" alt="Screenshot (276)" src="https://github.com/user-attachments/assets/4b4b06d4-29e5-41d9-815f-e8fe33bf1fb2" />
 
-<img width="3" height="218" alt="Screenshot 2026-11-25 104337" src="https://github.com/user-attachments/assets/ff544caa-f5cb-42c2-94e1-5fd573e1c167" />
+
 
 
 ## Features
