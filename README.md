@@ -92,11 +92,4 @@ Frontend/inventory_management_system/
 - **Backend:** Render, with `MONGO_URI` set as an environment variable
 - **Frontend:** Vercel, deployed from the `Frontend/inventory_management_system` folder
 
-## Acknowledgements
 
-This project started from the open-source CRUD base by [mhy20401](https://github.com/mhy20401/Inventory-Management-System-MERN-CRUD-Project). I extended it with authentication, role-based access, the analytics dashboard, low-stock tracking and deployment.
-
-## Author
-
-**Rachana**
-GitHub: [rachanaraghu1](https://github.com/rachanaraghu1)
