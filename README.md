@@ -1,4 +1,4 @@
-<img width="1920" height="955" alt="Screenshot (278)" src="https://github.com/user-attachments/assets/433e9792-1d6e-4ebd-825d-02802e2dfcfa" />
+
 # Smart Inventory: MERN Inventory Management System
 
 A full-stack inventory management app where users can sign up, log in, and manage products with a live analytics dashboard and low-stock tracking.
